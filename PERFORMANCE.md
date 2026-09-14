@@ -1,5 +1,85 @@
 # Performance Records
 
+## R19 Same-Framework AI Authoring A/B (2026-09-14)
+
+One predeclared Content batch compares the same published core 0.16.36 and
+generator 0.1.157 with and without the opt-in authoring bundle. Both use identical
+representative Content source and lockfiles (TypeScript 5.9.3), the same model
+`openai/gpt-5.6-sol`, archived OpenCode 1.18.27, 300-second/400,000-input budgets,
+browser utility, and current visibility-aware acceptance. The scaffold's source
+is replaced equally with the existing eleven-route Content application, so this
+tests existing-app adoption rather than completion of the default counter demo.
+
+Two isolated no-tool canaries prove project-instruction delivery in `--pure`
+mode: baseline returns ABSENT, guided returns a random token present only in its
+AGENTS.md. They cost 14,043 tokens separately, and no canary is copied into measured
+inputs. The default system executable is 1.18.30; measured calls explicitly use
+the preserved, hash-verified 1.18.27 binary rather than silently substituting it.
+R16's ten streams also reconcile with the new read-only auditor: 1,596,059 versus
+1,118,574 tokens, prebuild 669,707 versus 421,909, and zero exact non-truncated
+request/output repeat candidates. No new read cache is justified by that audit.
+
+| Failure-inclusive metric | Baseline | Opt-in AI bundle |
+|---|---:|---:|
+| Scored successes | 4/5 | 5/5 |
+| Final build/acceptance passes | 5/5 | 5/5 |
+| Total tokens | 1,733,513 | 1,288,503 |
+| Tokens per success | 433,378.25 | 257,700.6 |
+| Uncached input / cache reads | 235,278 / 1,479,424 | 180,589 / 1,088,384 |
+| Output / reasoning | 15,713 / 3,098 | 15,687 / 3,843 |
+| Median elapsed ms | 128,636 | 115,590 |
+| Median normalized tools | 30 | 30 |
+| Scored build/check calls | 5 | 5 |
+| Pre / build-message / post tokens | 662,944 / 114,614 / 955,955 | 525,179 / 92,482 / 670,842 |
+| Browser fills / successful text checks | 20 / 51 | 20 / 57 |
+
+Observed total-token reduction is 25.67%; failure-inclusive success cost falls
+40.54%, partly because baseline ordinal 1 exceeds the input budget. It is not
+dropped. Elapsed median falls 10.14%; median tool count is unchanged. Pair 4 is a
+counterexample: guided uses 319,119 tokens versus baseline 273,467 and takes longer.
+Do not describe every task or metric as improved. All ten usage traces are complete.
+Scheduled usage is 3,022,016 tokens, or 3,036,059 including the two canaries.
+Provider-reported subscription dollars are zero, not measured monetary savings.
+
+All five guided agents use the actual `ai check` wrapper once; one also uses
+`ai docs Authoring`. Their five retained check logs are 523 bytes each and are not
+truncated, so the result does not isolate a benefit from log truncation. This is
+a combined instruction/tool exposure experiment, not proof of either component's
+individual effect. Both arms use native browser fills and preserve independent
+typecheck/build, behavior, accessibility and all ten static-sibling checks. Two
+failed caller-supplied text checks in each arm remain charged. No links were
+clicked; this is not a complete keyboard/screen-reader audit.
+
+The separately frozen experimental adapter recognizes check and ai-check commands
+as build calls in both arms. Both build/check scripts run the same typecheck/build,
+preventing a cheaper no-typecheck path. Experimental runner guards readonly
+instructions/tools/README/ignore/manifests, retains check logs separately and
+excludes developer files/logs from source retention. Positive and tampering tests
+pass before measured calls. All 180 context-integrity checks pass; actual authored
+changes are exactly the articles page and stylesheet for every attempt. Source,
+tsconfig, data and other pages remain equivalent. No tracked adapter/protocol,
+compiler, generator or budget change is made by this experiment.
+
+The ten serial attempts run 01:49:53.854Z–02:12:01.173Z, 22m 7.319s, without retries
+or substitutions. Evidence: `test-results/ai-delivery-production/ai-authoring-ab-20260914/`
+contains frozen inputs, canaries, audit/review, all attempts, complete tool check
+logs, source and artifact hashes. Audit verifies ten traces, sixty command streams,
+two hundred artifacts and readonly inputs. Five pairs, provider/cache variation,
+the combined intervention and this one task limit generalization. This is the
+first positive observation for the published authoring bundle, not a React/Astro
+comparison, global cost guarantee, or authorization for 1.0.
+
+Final check, required-Chrome standalone 1/1 plus 339/339 tests without skips,
+core/paired generator package smoke and diff checks pass. Only this report and
+the application packet are tracked changes; experiment code and frozen variants
+remain isolated evidence rather than unreviewed changes to the default runner.
+
+Archive: `ai-authoring-ab-20260914-audited.tar.gz`, 63,425,021 bytes, with 654
+content-verified files plus its manifest; SHA-256
+`4bada0e32a2d215a4ee34899aa982dbdf72baa80446ae6d25a98925deecc9bf8`.
+This checksum closure is outside the archive snapshot. Elapsed measurements
+include installation and agent work, excluding independent final build/acceptance.
+
 ## 0.16.36 Release Scope
 
 The user-authorized release publishes managed AI check cancellation through

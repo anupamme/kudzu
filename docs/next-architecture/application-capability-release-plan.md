@@ -10,6 +10,17 @@ one independently releasable evidence packet to each patch release. Planned
 versions are not completed releases. `package.json`, release notes, tags, and
 registry metadata change only after the matching packet passes every gate.
 
+R19 (2026-09-14) is a separate same-core Content authoring experiment, not a
+framework comparison. Published core 0.16.36/generator 0.1.157 use identical source,
+locks, model and budgets; actual --pure project instruction loading is verified
+by two no-tool canaries. Baseline succeeds 4/5 and the optional AI bundle 5/5.
+Failure-inclusive tokens per success fall 433,378.25 → 257,700.6 (40.54%); total
+tokens fall 25.67%. All five guided agents use the real check wrapper and all
+outputs pass independent acceptance. One pair is worse with guidance, so no
+universal saving is claimed. Preserve this positive but small combined-intervention
+result; independent confirmation/broader task evidence precedes general cost or
+1.0 claims. The original R16 archive is present and audited in this Linux checkout.
+
 The active user-authorized release is core 0.16.36 and create-kudzu 0.1.157 for
 managed AI check cancellation. The earlier unreleased notes are implementation
 history. Compiler/runtime code and benchmark protocols are unchanged; require
