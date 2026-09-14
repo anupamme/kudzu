@@ -1,5 +1,59 @@
 # Performance Records
 
+## 0.16.36 Release Scope
+
+The user-authorized release publishes managed AI check cancellation through
+create-kudzu 0.1.157, targeting core 0.16.36. The earlier unreleased notes describe
+the implementation session. Compiler/runtime, model protocols and measured AI
+costs are unchanged. Existing generated tools require explicit replacement;
+the release does not update files already copied into user applications.
+
+Release-tree verification passes: check, default-parallel required-Chrome tests
+(standalone 1/1 plus 339/339 without skips), core/paired generator smoke, and both
+pack dry runs. Default/AI starters retain four identical deploy files. Exact-
+commit CI and protected registry publication complete the transaction separately.
+
+## Managed AI Check Cancellation (2026-09-14, unreleased)
+
+`create-kudzu`'s opt-in check tool previously started a separate Unix process
+group even under the runner's existing `KUDZU_AI_DELIVERY_GROUP=1` contract.
+Killing the outer group therefore left the check worker alive. The regression
+fails before the fix with heartbeat 3 → 13 after outer termination. A controlled
+review replay after the fix retains heartbeat 1 → 1 and a common outer/worker
+group, with all owned test processes cleaned afterward.
+
+Managed checks now inherit that group. Their own timeout/SIGTERM still stops only
+the check's ordinary descendants, using a bounded native `ps` PID/parent-PID
+snapshot, so sibling work survives. Standalone Unix group termination and Windows
+tree termination retain their previous paths. Missing/malformed process inspection
+is reported as an error, not successful cleanup. This is trusted-process
+supervision; intentionally detached/reparented jobs are not a sandbox guarantee.
+
+Tests cover hard outer-group termination, own timeout, SIGTERM, grandchild cleanup,
+sibling survival, complete logs, existing nonzero exit behavior and recursion
+rejection. No model calls or AI-cost savings are claimed. Core compiler/runtime,
+generated application source and public instructions are unchanged. The check
+tool grows 17 net lines and introduces no package dependency. New Unix process
+tests run on Linux here; Windows behavior was not exercised.
+
+Check passes. The first full test run is interrupted and leaves a stale lock in
+the invalid-animation-frame fixture; the resumed run detects that lock. Its PID
+is confirmed absent before removing only that lock. The final required-Chrome
+run passes standalone 1/1 plus 339/339 without skips or cancellations. Core and
+paired generator package smoke pass; default/AI deploy outputs remain four
+identical files, 9,758 raw / 3,741 aggregate gzip bytes. Receipts and all test logs
+remain under `/tmp/opencode/kudzu-ai-check-fix/`. This local fix is not yet released.
+
+## 0.16.35 Publication Completion (2026-09-14)
+
+Protected npm workflow 34696344218 completes successfully after approval. Registry
+core 0.16.35 and generator 0.1.156 are verified as latest, with downloaded SHA-512
+integrities and byte-identical local packs. Fresh same-name default/AI apps install
+core 0.16.35, pass their normal/AI checks and emit four identical files with a
+script-free about page. Earlier pending statements below retain their session
+meaning. Receipts are under `/tmp/opencode/kudzu-0.16.35-release/`; the initial
+different-name comparison correctly differs in document titles and is retained.
+
 ## 0.16.35 Integration And Release Transaction
 
 The user authorizes this compiler packet as 0.16.35 after the independent

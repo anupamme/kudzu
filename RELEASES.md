@@ -1,5 +1,28 @@
 # Kudzu Releases
 
+## 0.16.36 - Managed AI Check Cancellation
+
+- Publishes `create-kudzu@0.1.157` with corrected cancellation for the optional
+  AI check tool. Managed Unix checks inherit their outer process group rather
+  than escaping its hard cancellation.
+- A check-local timeout or SIGTERM stops that check's ordinary descendant
+  snapshot, preserving sibling work. Native process inspection is bounded and
+  failures are reported. Standalone Unix and Windows termination paths remain.
+- Preserves complete logs, nonzero failure codes, recursion rejection and the
+  explicit distinction between build checks and browser verification.
+- Regression tests reproduce the previous post-cancellation writes and cover
+  outer-group termination, own timeout, SIGTERM, grandchildren and sibling survival.
+- Compiler/runtime behavior and application deploy output are unchanged. This is
+  trusted-process supervision, not containment of deliberately detached jobs or
+  a measured AI-cost improvement. Windows behavior was not exercised locally.
+- New projects target `@kudzujs/core@^0.16.36`. Existing generated `kudzu-ai.mjs`
+  files are snapshots: update the tool using the generator README's existing-app
+  instructions; upgrading only core does not replace it.
+
+```sh
+npm create kudzu@0.1.157 my-app -- --ai
+```
+
 ## 0.16.35 - Nested Evaluator Exclusion
 
 - Projects existing nested scope descriptors from bindings, conditions and calculated

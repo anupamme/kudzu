@@ -66,10 +66,16 @@ Keep each patch behavior-preserving and independently reviewable. If a boundary 
 
 ## Generator Versions
 
-`create-kudzu@0.1.156` retains the explicit install instructions, adds opt-in `--ai`
-developer tools, and generates projects with `@kudzujs/core@^0.16.34`.
+`create-kudzu@0.1.157` retains the explicit install instructions, provides opt-in
+`--ai` developer tools with managed cancellation, and targets `@kudzujs/core@^0.16.36`.
 
 ## Release Boundary
+
+The active user-authorized transaction is core `0.16.36` and generator `0.1.157`,
+managed AI check cancellation. Preserve the unchanged compiler/runtime and verify
+both package installations, copied tool behavior and default/AI deploy parity.
+The preceding 0.16.35 registry publication is complete; older pending statements
+below retain their historical session meaning.
 
 The active user-authorized transaction is core `0.16.35`, nested evaluator
 exclusion. The earlier uncommitted 0.16.34 compiler draft is renumbered because

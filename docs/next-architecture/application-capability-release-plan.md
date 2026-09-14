@@ -10,6 +10,20 @@ one independently releasable evidence packet to each patch release. Planned
 versions are not completed releases. `package.json`, release notes, tags, and
 registry metadata change only after the matching packet passes every gate.
 
+The active user-authorized release is core 0.16.36 and create-kudzu 0.1.157 for
+managed AI check cancellation. The earlier unreleased notes are implementation
+history. Compiler/runtime code and benchmark protocols are unchanged; require
+exact-commit CI, protected npm publication and paired default/AI fresh installs.
+
+The 0.16.35 release transaction is complete: protected workflow 34696344218,
+registry integrity, and fresh default/AI app installation checks pass. Earlier
+pending statements below are historical. The next local tooling fix addresses
+managed `ai check` cancellation: inherit the existing outer group, stop only the
+check subtree on its own timeout/interruption, and preserve sibling work and
+failure/log reporting. Regression reproductions and the final Linux required-
+Chrome 1 + 339 suite plus package smoke pass. The fix is unreleased and adds no
+compiler/runtime capability or measured AI-cost claim; see `PERFORMANCE.md`.
+
 The active user-authorized release transaction is `0.16.35`, nested evaluator
 exclusion integrated on the published 0.16.34 AI-authoring release (`570aed9`).
 The earlier uncommitted compiler draft used 0.16.34; that number now belongs to

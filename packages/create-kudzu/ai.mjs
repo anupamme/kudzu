@@ -41,20 +41,34 @@ export async function check(root, timeoutMs = 300000) {
   const directory = await mkdtemp(join(logs, "check-")), path = join(directory, "output.log")
   const log = await open(path, "wx+")
   const start = performance.now()
+  const managed = process.env.KUDZU_AI_DELIVERY_GROUP === "1"
   try {
     const result = await new Promise(resolveRun => {
       const child = spawn(process.platform === "win32" ? "npm.cmd" : "npm", ["run", "check"], {
-        cwd: root, detached: process.platform !== "win32", shell: process.platform === "win32",
+        cwd: root, detached: process.platform !== "win32" && !managed, shell: process.platform === "win32",
         stdio: ["ignore", log.fd, log.fd], env: { ...process.env, FORCE_COLOR: "0", KUDZU_AI_CHECK_ROOT: root },
       })
       let timedOut = false, interrupted = null, error = null
       const terminate = () => {
-        if (!child.pid) return
+        if (!child.pid || child.exitCode !== null || child.signalCode !== null) return
         if (process.platform === "win32") {
           const killed = spawnSync("taskkill", ["/pid", String(child.pid), "/T", "/F"], { encoding: "utf8" })
           if (killed.status !== 0) error = killed.error?.message ?? killed.stderr ?? "Could not terminate check tree"
         } else {
-          try { process.kill(-child.pid, "SIGKILL") } catch (failure) { if (failure.code !== "ESRCH") error = failure.message }
+          const pids = [managed ? child.pid : -child.pid]
+          if (managed) {
+            // Keep the outer group alive on this tool's timeout; stop only its ordinary descendants.
+            const table = spawnSync("ps", ["-A", "-o", "pid=", "-o", "ppid="], { encoding: "utf8", timeout: 1000, maxBuffer: 1024 * 1024 })
+            if (table.status !== 0) error = table.error?.message || table.stderr?.trim() || "Could not inspect managed check descendants"
+            else {
+              const parents = table.stdout.trim().split("\n").map(line => line.trim().split(/\s+/).map(Number))
+              if (parents.some(row => row.length !== 2 || row.some(id => !Number.isSafeInteger(id) || id < 0))) error = "Invalid managed check process table"
+              else for (let index = 0; index < pids.length; index++) for (const [pid, parent] of parents) {
+                if (parent === pids[index] && pid > 1 && pid !== process.pid && !pids.includes(pid)) pids.push(pid)
+              }
+            }
+          }
+          for (const pid of pids.reverse()) try { process.kill(pid, "SIGKILL") } catch (failure) { if (failure.code !== "ESRCH") error = failure.message }
         }
       }
       const onInterrupt = signal => { interrupted = signal; terminate() }
