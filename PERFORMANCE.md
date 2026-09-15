@@ -1,5 +1,157 @@
 # Performance Records
 
+## 0.16.37 Release Scope
+
+The subsequent user request authorizes commit, push, immutable tagging and
+release of the browser observation fixes and R19 records below. Core is versioned
+0.16.37; generator stays 0.1.157. Candidate check, required-Chrome default-schedule
+tests (1/1 then 341/341, no skips), and core/paired generator smoke pass again.
+Comparing every packed file with the verified 0.16.36 release finds the same 60
+core paths and identical contents except the core manifest version; all five
+generator files remain identical. There is no compiler/runtime or deploy-byte
+delta. Local receipts are under `/tmp/opencode/kudzu-0.16.37-release/`.
+Exact-commit CI, GitHub release and protected registry publication are separate
+remaining gates; publication receipts belong to the GitHub release.
+
+## Browser Open Parsing Readiness (2026-09-15, offline)
+
+Follow-up to the parallel long-body observation failure: `Page.navigate` can
+return before HTML parsing finishes. The fixed 150 ms settling interval alone
+allows `open` to report a partially parsed body. A real-Chrome regression delays
+a parser-blocking script through CDP request interception for 1,000 ms and
+reproduces the same `textTruncated: false` assertion failure before the fix.
+The original parallel run lacks lifecycle tracing, so its precise timing is not
+retroactively established by this controlled reproduction.
+
+`open` now waits for `DOMContentLoaded` keyed by the returned frame and loader,
+then retains the existing settling interval. Events are collected before sending
+navigation so fast documents cannot race listener registration. Reloads wait for
+their own loader; fragment navigation without a new loader does not wait for a
+nonexistent event. The existing overall deadline and cleanup still bound stalled
+documents. This is document parsing readiness, not network/application idle or
+a new readiness guarantee for click-triggered navigation.
+
+The regression covers delayed initial load, reload, and fragment navigation;
+the browser suite passes 7/7, including existing stalled-renderer cleanup and
+single-read text assertions. `npm run check`, default-schedule
+`KUDZU_REQUIRE_CHROME=1 npm test` (standalone 1/1, then 341/341, zero skips), and
+`npm run test:package` all pass. Paired generator smoke retains four identical
+deploy files at 9,758 raw / 3,741 aggregate gzip bytes. Full logs are retained in
+`test-results/ai-delivery-production/browser-open-readiness-20260915/`.
+
+This adds two CDP setup commands per invocation (`Page.enable` and lifecycle
+events); the preceding replay totals describe the earlier single-read revision.
+The one-read-per-assertion behavior remains. No new model calls or measured AI
+cost saving, runtime changes, historical rescoring, or release follows from this
+utility fix. Future experiments must freeze the updated utility and public docs.
+
+## Single-Read Browser Text Assertions (2026-09-14, offline)
+
+The browser smoke tool previously read full body text once for the observation
+and again through another CDP request for `expect-text`. A changing body between
+reads could therefore pass against text different from the returned observation.
+The deterministic getter/mutation regression fails before the fix: a sample of
+Two is accepted for One. Matching and the bounded excerpt now derive from one
+fresh body read. Assertions still inspect the whole text beyond the 4,000-character
+excerpt, never reuse a previous command's text, and retain the settling interval,
+failure handling, AX collection, actions and cleanup. AX remains a separate sample,
+not an atomic whole-page snapshot.
+
+Two unchanged R19 command sequences are replayed in actual Chrome without model
+calls. Expanding observation references gives identical observations/results,
+apart from elapsed times, on these stable application artifacts:
+
+| Replay | Commands / text checks | Body reads before → after | All CDP requests before → after |
+|---|---:|---:|---:|
+| Baseline ordinal 0 | 15 / 6 | 21 → 15 | 84 → 78 |
+| Guided ordinal 0 | 12 / 6 | 18 → 12 | 78 → 72 |
+
+This removes one body read and one CDP round trip per text assertion without a
+new caller option. It fixes assertion consistency and proves operation reduction,
+not AI-token, monetary, latency or cross-framework savings. No compiler/runtime,
+generator, scorer, budget or frozen protocol changes occur. Future experiments
+must pin the new utility hash; historical R19 results are unchanged. Replays and
+counts are under `test-results/ai-delivery-production/single-read-assertions-20260914/`.
+
+Validation: `npm run check` and `npm run test:package` pass, including paired
+generator deploy parity. The initial `KUDZU_REQUIRE_CHROME=1 npm test` fails the
+existing long-body AX observation test (`textTruncated` is false instead of true);
+the new single-read regression passes. The browser suite then passes alone, 6/6.
+A required-Chrome serial full-suite rerun passes 340/340 with zero skips
+(05:25:03–05:33:04Z; `serial-verification.json` and `tests-serial.stdout`). This
+does not establish the cause of the initial failure or a clean default-parallel
+run; retain that failure rather than treating the rerun as a readiness fix.
+`git diff --check` also passes.
+
+## R19 Independent Confirmation (2026-09-14)
+
+The first R19 result is committed as `cab861a`. This separately authorized
+confirmation copies its frozen inputs byte-for-byte: same protocol hash
+`f3f44df63853575d1b1653d33827a2a1d7f54a6164ad10e478b675b433cf4fd5`, starters,
+core 0.16.36, generator 0.1.157, TypeScript 5.9.3, archived OpenCode 1.18.27,
+model, tool files/docs, budgets, scorer and serial schedule. No additional
+loading probe is made; original loading canaries and their cost remain in the
+first block. Pre-run lifecycle, generator, browser, protocol and frozen-runner
+tampering tests pass before all ten attempts. No failed attempt is replaced.
+
+**The initial cost improvement does not replicate.** All final outputs pass
+independent acceptance, but scored successes are baseline 5/5 versus guided 3/5.
+Guided ordinal 2 times out at 300,005 ms before a check/browser invocation, with
+partial usage preserved. Guided ordinal 4 records 553,031 input tokens against
+400,000. Its repeated browser checks include a failed expectation for nonexistent
+topic summary text, then a corrected check; that work remains charged.
+
+| Confirmation metric, five attempts | Baseline | Opt-in AI bundle |
+|---|---:|---:|
+| Scored successes | 5/5 | 3/5 |
+| Final acceptance passes | 5/5 | 5/5 |
+| Recorded tokens | 1,630,073 | at least 1,688,909 |
+| Failure-inclusive tokens per success | 326,014.6 | unavailable |
+| Median elapsed ms | 133,301 | 154,735 |
+| Median normalized tools | 29 | 31 |
+| Build/check calls | 7 | 6 |
+| Actual ai-tool adopters | 0/5 | 4/5 |
+| Retained ai-check logs | 0 | 6 |
+
+The guided total is a lower bound, not zero-tail accounting. Recorded usage is
+3,318,982 tokens with no new probe. Its exact success cost cannot be computed.
+The copied analysis helper initially coerces a null cost to zero when computing
+a reduction; that derived report is preserved as invalid and corrected to null.
+The underlying scorer already reports null correctly; no attempt/trace/score is
+changed. A false 100% saving from analysis arithmetic must not enter conclusions.
+
+Across both separately retained blocks: baseline succeeds 9/10 and records
+3,363,586 tokens (373,731.78 per success). Guided succeeds 8/10 and records at least
+2,977,412; aggregate success cost remains unavailable because of the unknown tail.
+Including the original 14,043-token canaries once, total recorded work is at least
+6,355,041 tokens. Preserve the first positive result but do not advertise 40.54%
+as a reliable/general saving or expand to Forms/CRUD on that premise.
+
+Audit verifies ten traces, sixty command streams, two hundred artifacts and 180
+context-integrity checks. Each attempt changes only the article page and stylesheet;
+no other authored file is changed or deleted. Guided check logs are retained and
+matched to reported lengths. The timeout performed no agent-owned browser check;
+the runner's independent final acceptance does not turn it into a success. No
+screen-reader/keyboard completeness or provider-level cause of timing gaps is inferred.
+
+Execution is 04:05:37.538Z–04:31:43.470Z, 26m 5.932s. Evidence is under
+`test-results/ai-delivery-production/ai-authoring-confirmation-20260914/` with the
+identical input copies, preregistration, raw failures, audit/review and pooled
+comparison. No product, default protocol, generator, compiler or runtime change
+is made. Stop provider calls after this requested confirmation; investigate the
+timeout and excess verification offline before proposing a further intervention.
+
+Final check, required-Chrome standalone 1/1 plus 339/339 without skips, and
+core/paired generator package smoke pass. The first-block archive checksum and
+copied input inventory are reverified; no source, tool or historical score is
+changed to turn this failed confirmation into a success.
+
+Confirmation archive: `ai-authoring-confirmation-20260914-audited.tar.gz`,
+61,740,350 bytes; SHA-256
+`d3c4aae689e12872f1ae780ffd2d682f44e608a88ac9b0a998a452138c414a5b`.
+All 618 archived content files verify against the manifest. This checksum closure
+is outside the archive snapshot; the first-block archive remains unchanged.
+
 ## R19 Same-Framework AI Authoring A/B (2026-09-14)
 
 One predeclared Content batch compares the same published core 0.16.36 and

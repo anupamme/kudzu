@@ -65,12 +65,16 @@ export async function browserSmoke(directory, commands, emit = console.log, time
       const { targetId } = await cdp.send("Target.createTarget", { url: "about:blank" })
       const { sessionId } = await cdp.send("Target.attachToTarget", { targetId, flatten: true })
       cdp.sessionId = sessionId
+      const parsedDocuments = new Set()
       cdp.socket.addEventListener("message", event => {
         const message = JSON.parse(event.data)
+        if (message.sessionId === sessionId && message.method === "Page.lifecycleEvent" && message.params.name === "DOMContentLoaded") parsedDocuments.add(`${message.params.frameId}:${message.params.loaderId}`)
         // CSS and srcset images need not appear in document href/src attributes.
         if (message.sessionId === sessionId && message.method === "Network.requestWillBeSent" && message.params.request.url === `${origin}/favicon.ico` && (message.params.type !== "Other" || message.params.initiator.type !== "other")) authoredFavicon = true
       })
       const send = (method, params = {}) => cdp.send(method, params, sessionId)
+      await send("Page.enable")
+      await send("Page.setLifecycleEventsEnabled", { enabled: true })
       await send("Runtime.enable")
       await send("Network.enable")
       await send("Accessibility.enable")
@@ -82,8 +86,12 @@ export async function browserSmoke(directory, commands, emit = console.log, time
           if (command.op === "open") {
             const url = new URL(command.path, origin)
             if (typeof command.path !== "string" || !command.path.startsWith("/") || url.origin !== origin) throw new Error("open requires a local root-relative path")
+            parsedDocuments.clear()
             const result = await send("Page.navigate", { url: url.href })
             if (result.errorText) throw new Error(result.errorText)
+            // Navigation commits before parsing finishes; fragment navigation has no new loader.
+            while (!stopped && result.loaderId && !parsedDocuments.has(`${result.frameId}:${result.loaderId}`)) await new Promise(done => setTimeout(done, 10))
+            if (stopped) return
           } else if (["click", "fill"].includes(command.op)) {
             const named = Object.hasOwn(command, "name")
             if (typeof command.role !== "string" || !command.role || (named && typeof command.name !== "string")) throw new Error("Action requires exact role and optional string accessible name")
@@ -121,8 +129,9 @@ export async function browserSmoke(directory, commands, emit = console.log, time
           } else if (!["snapshot", "expect-text"].includes(command.op)) throw new Error("Unknown operation")
           // A bounded settling window, not an assertion that all application work is idle.
           await new Promise(done => setTimeout(done, 150))
-          const snapshot = await evaluate(cdp, "(() => {const text=document.body?.innerText ?? '';return {text:text.slice(0,4000),textTruncated:text.length>4000}})()")
-          if (command.op === "expect-text" && (typeof command.text !== "string" || !await evaluate(cdp, `(document.body?.innerText ?? '').includes(${JSON.stringify(command.text)})`))) throw new Error("Caller-supplied rendered text was not found")
+          const match = command.op === "expect-text" && typeof command.text === "string" ? `text.includes(${JSON.stringify(command.text)})` : "false"
+          const { matches, ...snapshot } = await evaluate(cdp, `(() => {const text=document.body?.innerText ?? '';return {text:text.slice(0,4000),textTruncated:text.length>4000,matches:${match}}})()`)
+          if (command.op === "expect-text" && !matches) throw new Error("Caller-supplied rendered text was not found")
           const { nodes } = await send("Accessibility.getFullAXTree")
           const namedNodes = nodes.filter(node => !node.ignored && node.name?.value)
           const distinct = namedNodes.filter(node => !(["StaticText", "InlineTextBox"].includes(node.role?.value) && snapshot.text.includes(String(node.name.value))))

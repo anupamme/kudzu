@@ -28,6 +28,16 @@ Role-only selection does not assert its name or certify accessible labeling.
 Input and clicks use native browser events. The JSON array
 is limited to 20 commands / 16,384 characters and an invocation to 30 seconds.
 
+Text assertions use one fresh full-body text read for both matching and the
+returned excerpt. Matching is not limited to the excerpt and does not reuse a
+previous command's text. The separately collected AX summary is not an atomic
+snapshot of the whole page.
+
+`open` waits for the destination document's `DOMContentLoaded` event before the
+usual 150 ms settling window, within the existing invocation timeout. Reloads
+wait for their new document; fragment-only navigation has no new document to
+wait for. This establishes parsing readiness, not application or network idle.
+
 Each command observes rendered body text (up to 4,000 characters) and named Chrome
 accessibility entries (up to 60, names up to 160 characters), with truncation
 flags. Static text/inline text-box entries whose entire name already occurs in

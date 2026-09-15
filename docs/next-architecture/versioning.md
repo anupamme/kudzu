@@ -71,6 +71,14 @@ Keep each patch behavior-preserving and independently reviewable. If a boundary 
 
 ## Release Boundary
 
+The active user-authorized transaction is core `0.16.37`, repository browser
+observation consistency and the R19 confirmation record. The browser utility is
+not in either npm tarball; compiler/runtime source remains unchanged. Retain
+generator `0.1.157` and its compatible `^0.16.36` range. Require exact-commit CI,
+an immutable annotated tag, GitHub release, protected npm publication, registry
+integrity verification and fresh installs. Earlier active statements below are
+historical; core `0.16.36` and generator `0.1.157` are already published.
+
 The active user-authorized transaction is core `0.16.36` and generator `0.1.157`,
 managed AI check cancellation. Preserve the unchanged compiler/runtime and verify
 both package installations, copied tool behavior and default/AI deploy parity.

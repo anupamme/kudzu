@@ -10,6 +10,41 @@ one independently releasable evidence packet to each patch release. Planned
 versions are not completed releases. `package.json`, release notes, tags, and
 registry metadata change only after the matching packet passes every gate.
 
+The user authorizes release closure as `0.16.37` for the repository browser
+observation fixes and R19 evidence records. This explicitly replans the next
+patch as tooling/evidence closure, not a new compiler capability or an accepted
+AI-cost reduction. Generator `0.1.157` remains compatible and unchanged. Follow
+exact-commit CI, immutable tag/GitHub release, protected npm publication and fresh
+registry checks before declaring the release transaction complete.
+
+The next offline follow-up (2026-09-15) reproduces premature `open` observations
+with a delayed parser-blocking script. Waiting for the destination frame/loader's
+`DOMContentLoaded` fixes this race while preserving fragment navigation and the
+overall timeout. The original parallel failure remains historical evidence, not
+a retroactively traced event. Check, default-schedule required-Chrome tests
+(1/1 then 341/341, zero skips), and package smoke now pass. Two CDP setup commands
+are added per invocation; this correctness fix makes no AI cost-saving claim.
+
+The post-confirmation offline fix samples browser body text once for both
+`expect-text` and its observation, removing the second CDP read and preventing a
+pass against different text. Two existing sequences preserve results and remove
+twelve CDP round trips total. Whole-text assertions, settling, errors and cleanup
+remain; no model calls or cost saving are claimed. This is utility correctness,
+not a change to the failed R19 confirmation or the AI/1.0 gate.
+Check and package smoke pass; required-Chrome serial tests pass 340/340 with no
+skips. The initial default-parallel run fails an existing long-body observation
+assertion, which passes in the isolated 6/6 browser rerun. Its cause remains
+unresolved; the serial pass does not certify default-parallel stability.
+
+R19 confirmation (2026-09-14) uses byte-identical frozen inputs but does not
+replicate the first cost saving: baseline 5/5 versus guided 3/5, including a
+guided timeout with unknown tail usage and an input-budget failure. All outputs
+pass independent acceptance, which does not replace the scored failures. Combined
+blocks are baseline 9/10 and guided 8/10; guided aggregate success cost is
+unavailable. Preserve both results, keep the AI/1.0 gate blocked, and defer the
+conditional Forms/CRUD expansion. No new model batch or product feature follows
+automatically; retained timeout/verification work is the next offline evidence.
+
 R19 (2026-09-14) is a separate same-core Content authoring experiment, not a
 framework comparison. Published core 0.16.36/generator 0.1.157 use identical source,
 locks, model and budgets; actual --pure project instruction loading is verified

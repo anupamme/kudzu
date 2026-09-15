@@ -8,6 +8,7 @@ import { createServer } from "node:http"
 import { execFile } from "node:child_process"
 import { promisify } from "node:util"
 import { browserSmoke } from "./browser-smoke.mjs"
+import { CDP } from "./browser-cdp.mjs"
 
 const chrome = !process.env.KUDZU_SKIP_BROWSER && process.platform === "linux" && existsSync(process.env.CHROME_BIN ?? "/usr/bin/google-chrome")
 if (process.env.KUDZU_REQUIRE_CHROME && !chrome) throw new Error("Linux Chrome is required for browser smoke tests; set CHROME_BIN")
@@ -84,6 +85,67 @@ test("ordinary browser smoke separates rendered DOM from raw artifacts and repor
     return true
   })
   assert.deepEqual((await readdir(tmpdir())).filter(name => name.startsWith("browser-smoke-")), before, "success and failure remove disposable profiles")
+})
+
+test("open observes the parsed destination, including reloads and fragment navigation", { timeout: 30_000, skip: !chrome }, async t => {
+  const root = await mkdtemp(join(tmpdir(), "smoke-parsing-"))
+  t.after(() => rm(root, { recursive: true, force: true }))
+  await writeFile(join(root, "index.html"), '<p>Before</p><script src="/slow.js"></script><p>' + "x".repeat(4100) + '</p><button>Ready</button>')
+  await writeFile(join(root, "slow.js"), "// Delayed parser-blocking resource.\n")
+  const send = CDP.prototype.send, timers = new Set(), interceptionErrors = []
+  let delayed = 0
+  t.after(() => { for (const timer of timers) clearTimeout(timer) })
+  t.mock.method(CDP.prototype, "send", async function(method, params, sessionId) {
+    if (method === "Page.navigate") {
+      if (!delayed) this.socket.addEventListener("message", event => {
+        const message = JSON.parse(event.data)
+        if (message.method !== "Fetch.requestPaused") return
+        delayed++
+        const timer = setTimeout(() => {
+          timers.delete(timer)
+          send.call(this, "Fetch.continueRequest", { requestId: message.params.requestId }, message.sessionId).catch(error => interceptionErrors.push(error))
+        }, 1000)
+        timers.add(timer)
+      })
+      await send.call(this, "Fetch.enable", { patterns: [{ urlPattern: "*/slow.js" }] }, sessionId)
+    }
+    return send.call(this, method, params, sessionId)
+  })
+  const events = []
+  await browserSmoke(root, [{ op: "open", path: "/" }, { op: "open", path: "/" }, { op: "open", path: "/#ready" }], line => events.push(JSON.parse(line)))
+  assert.equal(delayed, 2, "each document navigation delays its parser; the fragment does not reload")
+  assert.deepEqual(interceptionErrors, [])
+  for (const observation of events.slice(0, 3)) {
+    assert.equal(observation.textTruncated, true, "open must not sample the partially parsed body")
+    assert.ok(observation.accessibility.some(node => node.role === "button" && node.name === "Ready"))
+  }
+})
+
+test("text assertions and their observations use the same fresh body read", { timeout: 30_000, skip: !chrome }, async t => {
+  const root = await mkdtemp(join(tmpdir(), "smoke-text-sample-"))
+  t.after(() => rm(root, { recursive: true, force: true }))
+  await writeFile(join(root, "index.html"), `<p>One</p><script>
+    const read = Object.getOwnPropertyDescriptor(HTMLElement.prototype, 'innerText').get;
+    let reads = 0;
+    Object.defineProperty(document.body, 'innerText', { get() {
+      const text = read.call(this);
+      document.querySelector('p').textContent = ++reads % 2 ? 'Two' : 'One';
+      return text;
+    }});
+  </script>`)
+  const failed = []
+  await assert.rejects(browserSmoke(root, [{ op: "open", path: "/" }, { op: "expect-text", text: "One" }], line => failed.push(JSON.parse(line))), /rendered text was not found/)
+  assert.equal(failed[0].text, "One")
+  assert.equal(failed[1].ok, false, "a second read must not turn a mismatching observation into a pass")
+  const passed = []
+  await browserSmoke(root, [{ op: "open", path: "/" }, { op: "expect-text", text: "Two" }], line => passed.push(JSON.parse(line)))
+  assert.equal(passed[1].ok, true)
+  assert.equal(passed[1].text, "Two")
+  await writeFile(join(root, "index.html"), '<p>' + 'x'.repeat(4100) + '</p><p>Beyond the observation bound</p>')
+  const bounded = []
+  await browserSmoke(root, [{ op: "open", path: "/" }, { op: "expect-text", text: "Beyond the observation bound" }], line => bounded.push(JSON.parse(line)))
+  assert.equal(bounded[1].ok, true, "assertion evaluates the whole text, not only its displayed excerpt")
+  assert.equal(bounded[0].textTruncated, true)
 })
 
 test("observations keep actionable AX names instead of repeating visible text", { timeout: 30_000, skip: !chrome }, async t => {

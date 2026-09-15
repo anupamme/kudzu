@@ -1,5 +1,26 @@
 # Kudzu Releases
 
+## 0.16.37 - Browser Observation Consistency
+
+- Fixes the repository-only browser smoke tool so text assertions and their
+  returned excerpts use one fresh full-body read. Matching still includes text
+  beyond the 4,000-character excerpt; separate AX collection is not atomic.
+- Waits for the opened document's frame/loader-specific `DOMContentLoaded`
+  before observing it. Reloads, fragment navigation, the existing settling
+  interval, overall timeout and cleanup retain their tested behavior.
+- Adds deterministic changing-text and delayed-parser regressions. Local checks,
+  required-Chrome default-schedule tests (1/1 then 341/341, no skips), and package
+  smoke pass. Exact-commit CI must pass before tagging.
+- Records the R19 independent confirmation: the first AI-cost improvement does
+  not replicate. Combined successes are baseline 9/10 versus guided 8/10, with
+  guided success cost unavailable because timeout tail usage is unknown.
+- This is a repository tooling/evidence release. Compiler/runtime source and
+  deploy output are unchanged; no measured AI-token or latency saving is claimed.
+  The browser utility is not included in the npm core or generator tarballs.
+- Retains `create-kudzu@0.1.157` and its compatible `@kudzujs/core@^0.16.36` range.
+  New experiments must freeze the updated repository utility and public docs;
+  historical inputs, scores and failures remain intact.
+
 ## 0.16.36 - Managed AI Check Cancellation
 
 - Publishes `create-kudzu@0.1.157` with corrected cancellation for the optional
