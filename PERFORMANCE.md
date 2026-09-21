@@ -1,5 +1,58 @@
 # Performance Records
 
+## Publication Lookup Diagnostics (2026-09-21)
+
+The 0.16.38 publication workflow completed its publish steps but failed the
+final version-visibility check; later independent registry and install checks
+passed. That historical failure cannot be assigned to authentication, networking
+or propagation because the verification command discarded npm stderr. The shell
+also compared command-substitution output without requiring npm's exit status
+to succeed. No retry-duration or cache hypothesis is established by the old log.
+
+The final verification step now retains lookup errors, requires both a successful
+lookup and an exact version match, and reports unexpected version output. It
+retains the same twelve attempts and five-second delays, and reports attempts
+rather than implying that npm request time is included in exactly sixty seconds.
+Publishing commands, versions, credentials and approval rules are unchanged.
+
+`test/publish-verification.test.mjs` executes the actual workflow step against
+local fake npm/sleep commands. It reproduces lost E404 output before the fix and
+checks recovery on a later successful lookup, nonzero exit with matching stdout,
+version mismatch, bounded attempts and stopping before the next package after
+failure. No package is published by these tests, and the original failed Actions
+run remains historical evidence rather than being relabeled as fixed or green.
+Focused verification, `npm run check`, required-Chrome `npm test` (1/1 then
+343/343, no skips), and `git diff --check` pass. These tests validate the workflow
+step, not a new publication run. The user authorizes committing and pushing this
+correction and the archive record while keeping the AI guidance candidate on hold.
+
+## R20 Evidence Archive Closure (2026-09-21)
+
+The R20 instruction-only block is now archived as
+`test-results/ai-delivery-production/r20-verification-plan-20260916-audited.tar.gz`:
+61,797,041 bytes; SHA-256
+`bfb6ee02af41e3b0dc7601764cbaf7d8c6f375d4c5a600135a2b2bab7587fdbb`.
+Its adjacent `.sha256` and `.verified.json` files retain the receipt. A fresh
+extraction verifies all 960 content files plus the manifest, including exact
+file-list equality. Sixty command streams, two hundred artifacts, ten result
+records and all recorded usage reconcile again to 3,225,239 tokens. No new
+provider calls occur and the control input-budget failure remains charged.
+
+The archive retains frozen inputs, raw attempts, failed preflight evidence,
+audits, the candidate generator source, package tarballs and the hash-pinned
+OpenCode executable. Installed `node_modules` trees are excluded; their lockfiles
+remain. This checksum closure is outside the archive snapshot. It is preservation
+of the same mixed block, not independent confirmation or evidence of reliable
+AI savings. The experimental guidance remains uncommitted and unshipped.
+Post-closure `npm run check`, required-Chrome `npm test` (1/1 then 342/342,
+zero skips), and `git diff --check` pass.
+
+Release 0.16.38 separately completed public website verification after Cloudflare
+authentication; ten new release URLs returned 200 and matched release HTML, and
+current navigation/sitemap checks passed. Its npm workflow's final registry
+visibility check failed, while subsequent registry integrity and fresh-install
+checks passed. Both facts remain recorded in the GitHub release receipts.
+
 ## 0.16.38 Release Scope
 
 The user authorizes commit, push, tagging and release of the website coverage

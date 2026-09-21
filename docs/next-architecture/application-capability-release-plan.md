@@ -10,6 +10,22 @@ one independently releasable evidence packet to each patch release. Planned
 versions are not completed releases. `package.json`, release notes, tags, and
 registry metadata change only after the matching packet passes every gate.
 
+The next local release-process correction (2026-09-21) preserves npm lookup errors
+and checks successful exit plus exact version during final publication verification.
+The old 0.16.38 log suppressed the error, so its underlying registry/auth/network
+cause remains unknown. Executable workflow-step tests cover recovery and failure
+without publishing. This is diagnostics/validation work, not another AI experiment
+or an automatic release; the existing failed Actions run remains recorded.
+
+R20 evidence closure (2026-09-21) preserves the same mixed block in the
+61,797,041-byte `r20-verification-plan-20260916-audited.tar.gz`, SHA-256
+`bfb6ee02af41e3b0dc7601764cbaf7d8c6f375d4c5a600135a2b2bab7587fdbb`.
+Fresh extraction verifies 960 content files plus the manifest, and raw streams,
+artifacts and usage reconcile without new model calls. The experimental guidance
+remains unshipped; this archive is not another trial. The 0.16.38 website and
+registry are independently verified; retain the original workflow's failed
+60-second registry visibility check rather than claiming that job was green.
+
 The user authorizes 0.16.38 release closure for website note coverage, current
 links, regression checks and the retained R20 evidence. This is a documentation
 and release-process patch, not a new compiler capability. Generator 0.1.157
