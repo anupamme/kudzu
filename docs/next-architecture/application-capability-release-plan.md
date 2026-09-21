@@ -10,6 +10,36 @@ one independently releasable evidence packet to each patch release. Planned
 versions are not completed releases. `package.json`, release notes, tags, and
 registry metadata change only after the matching packet passes every gate.
 
+The user authorizes 0.16.39 release closure for browser target release before
+navigation, the npm verifier correction and the R20 confirmation evidence.
+Generator 0.1.157 stays unchanged. Complete website notes, exact-commit CI,
+immutable GitHub/npm publication, fresh installs and deployed URL verification
+before declaring closure. No further model experiment follows from this release.
+
+The R20 confirmation browser failure is reduced and fixed offline (2026-09-21):
+remote DOM target handles are released after their last use and before click/fill
+events can navigate away. Real Chrome reproduces the missing-context error
+before the fix; the new click/input navigation regression and the exact ten
+historical commands pass afterward with unchanged artifact hashes. Validation
+and cleanup errors are not relaxed. This changes repository utility sequencing,
+not compiler/runtime semantics or historical scores, and makes no AI-cost claim.
+
+R20 independent confirmation (2026-09-21) is complete on byte-identical inputs:
+control and candidate both score 4/5, with candidate success cost and total
+tokens 19.36% higher. Both input-budget failures remain charged despite passing
+final acceptance. Across the two R20 blocks, candidate total tokens rise 11.61%;
+the pooled 0.79% lower success cost does not rescue the failed confirmation.
+Reject the instruction candidate and restore the published 1,828-byte guidance;
+its exact source remains in frozen inputs and the first archive. No third block,
+broader task expansion or AI/1.0 claim follows. The next evidence-ready offline
+item is control ordinal 4's `Runtime.releaseObject` missing-context error during
+browser verification; reproduce the release/navigation boundary before editing.
+Confirmation evidence is archived with 629 content-verified files plus manifest:
+61,786,923 bytes, SHA-256
+`db4a56583bcd3fd043e4e7f67e912a4571952f4ec070c64ab3c91ed776afb96e`.
+Check, required-Chrome tests (1/1 then 343/343), and package smoke pass after
+restoring the published guidance. No third model block runs.
+
 The next local release-process correction (2026-09-21) preserves npm lookup errors
 and checks successful exit plus exact version during final publication verification.
 The old 0.16.38 log suppressed the error, so its underlying registry/auth/network

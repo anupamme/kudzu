@@ -71,6 +71,14 @@ Keep each patch behavior-preserving and independently reviewable. If a boundary 
 
 ## Release Boundary
 
+The active user-authorized transaction is core `0.16.39`, browser target release
+before navigation, publication verification and the R20 confirmation record.
+Generator `0.1.157` is unchanged and the rejected guidance candidate is absent.
+Require exact-commit CI, immutable tagging, GitHub/npm publication, registry and
+fresh-install checks, and separate website deployment/public URL verification.
+The previous 0.16.38 registry and website rollout are verified; retain its original
+failed workflow visibility check as historical evidence.
+
 The active user-authorized transaction is core `0.16.38`, website release-note
 coverage and release-process checks. Restore missing pages, include the new page,
 and update current links before CI and immutable tagging. Generator `0.1.157`

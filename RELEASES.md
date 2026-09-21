@@ -1,5 +1,25 @@
 # Kudzu Releases
 
+## 0.16.39 - Browser Target Release Before Navigation
+
+- Releases temporary CDP DOM handles after their last use and before native
+  click/fill events can replace the document. This prevents cleanup against a
+  destroyed execution context during browser smoke verification.
+- Reproduces the missing-context failure in real Chrome and covers both link
+  navigation and navigation from an input handler. Existing target checks and
+  error handling remain intact; no error is silently ignored.
+- Replays the ten historical R20 commands against unchanged retained artifacts.
+  Original failures, scores and frozen inputs remain preserved; this utility
+  correction is not a measured AI-cost improvement.
+- Records the failed R20 confirmation: both arms score 4/5, with candidate token
+  cost 19.36% higher. The experimental guidance is rejected; published generator
+  guidance remains unchanged.
+- Includes the publication verifier correction already on main: retain npm lookup
+  errors and require a successful exit plus the exact expected version.
+- Adds the website release page and updates current links. Compiler/runtime code
+  and create-kudzu 0.1.157 are unchanged; these repository utilities are not
+  shipped in npm package tarballs.
+
 ## 0.16.38 - Release Website Coverage
 
 - Restores missing website notes for 0.16.32–0.16.37 and 0.8.60–0.8.62 using

@@ -38,6 +38,10 @@ usual 150 ms settling window, within the existing invocation timeout. Reloads
 wait for their new document; fragment-only navigation has no new document to
 wait for. This establishes parsing readiness, not application or network idle.
 
+Actions release their temporary CDP target handle after target checks and before
+sending native input events. A click or input handler can then navigate without
+a later cleanup request targeting the departed document.
+
 Each command observes rendered body text (up to 4,000 characters) and named Chrome
 accessibility entries (up to 60, names up to 160 characters), with truncation
 flags. Static text/inline text-box entries whose entire name already occurs in

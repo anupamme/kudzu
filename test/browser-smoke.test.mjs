@@ -121,6 +121,41 @@ test("open observes the parsed destination, including reloads and fragment navig
   }
 })
 
+test("actions release their remote target before native navigation destroys its context", { timeout: 30_000, skip: !chrome }, async t => {
+  const root = await mkdtemp(join(tmpdir(), "smoke-action-release-"))
+  t.after(() => rm(root, { recursive: true, force: true }))
+  await writeFile(join(root, "index.html"), '<a href="/next.html">Continue</a><label for="q">Destination</label><input id="q" oninput="if(this.value===\'go\') location.href=\'/next.html\'">')
+  await writeFile(join(root, "next.html"), '<h1>Destination reached</h1>')
+  const send = CDP.prototype.send
+  let releases = 0
+  t.mock.method(CDP.prototype, "send", async function(method, params, sessionId) {
+    if (method === "Runtime.releaseObject") releases++
+    if (!(method === "Input.insertText" || method === "Input.dispatchMouseEvent" && params.type === "mouseReleased")) return send.call(this, method, params, sessionId)
+    // Let the real navigation finish before delivering the input command's reply.
+    let listener
+    const parsed = new Promise(done => {
+      listener = event => {
+        const message = JSON.parse(event.data)
+        if (message.sessionId === sessionId && message.method === "Page.lifecycleEvent" && message.params.name === "DOMContentLoaded") done()
+      }
+      this.socket.addEventListener("message", listener)
+    })
+    try {
+      const result = await send.call(this, method, params, sessionId)
+      await parsed
+      return result
+    } finally { this.socket.removeEventListener("message", listener) }
+  })
+  for (const command of [{ op: "click", role: "link", name: "Continue" }, { op: "fill", role: "textbox", name: "Destination", value: "go" }]) {
+    const events = []
+    await browserSmoke(root, [{ op: "open", path: "/" }, command, { op: "expect-text", text: "Destination reached" }], line => events.push(JSON.parse(line)))
+    assert.equal(events[1].ok, true)
+    assert.equal(events[1].text, "Destination reached")
+    assert.equal(events.at(-1).ok, true)
+  }
+  assert.equal(releases, 2, "each action releases its remote target exactly once")
+})
+
 test("text assertions and their observations use the same fresh body read", { timeout: 30_000, skip: !chrome }, async t => {
   const root = await mkdtemp(join(tmpdir(), "smoke-text-sample-"))
   t.after(() => rm(root, { recursive: true, force: true }))

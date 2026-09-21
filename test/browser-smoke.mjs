@@ -112,6 +112,8 @@ export async function browserSmoke(directory, commands, emit = console.log, time
             const focused = await send("Runtime.callFunctionOn", { objectId: object.objectId, functionDeclaration: "function(){this.scrollIntoView({block:'center'});this.focus();return document.activeElement===this}", returnByValue: true })
             if (!focused.result.value) throw new Error("Target cannot receive focus")
             if (command.op === "fill") {
+              // Input handlers can replace the document; the remote target is no longer needed.
+              await send("Runtime.releaseObject", { objectId: object.objectId })
               await send("Input.dispatchKeyEvent", { type: "keyDown", key: "a", code: "KeyA", modifiers: 2, windowsVirtualKeyCode: 65 })
               await send("Input.dispatchKeyEvent", { type: "keyUp", key: "a", code: "KeyA", modifiers: 2, windowsVirtualKeyCode: 65 })
               await send("Input.dispatchKeyEvent", { type: "keyDown", key: "Backspace", windowsVirtualKeyCode: 8 })
@@ -122,10 +124,10 @@ export async function browserSmoke(directory, commands, emit = console.log, time
               const x = (model.content[0] + model.content[4]) / 2, y = (model.content[1] + model.content[5]) / 2
               const { result: hit } = await send("Runtime.callFunctionOn", { objectId: object.objectId, functionDeclaration: "function(x,y){return this.contains(document.elementFromPoint(x,y))}", arguments: [{ value: x }, { value: y }], returnByValue: true })
               if (!hit.value) throw new Error("Target is obscured")
+              await send("Runtime.releaseObject", { objectId: object.objectId })
               await send("Input.dispatchMouseEvent", { type: "mousePressed", x, y, button: "left", clickCount: 1 })
               await send("Input.dispatchMouseEvent", { type: "mouseReleased", x, y, button: "left", clickCount: 1 })
             }
-            await send("Runtime.releaseObject", { objectId: object.objectId })
           } else if (!["snapshot", "expect-text"].includes(command.op)) throw new Error("Unknown operation")
           // A bounded settling window, not an assertion that all application work is idle.
           await new Promise(done => setTimeout(done, 150))

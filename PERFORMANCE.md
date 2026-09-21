@@ -1,5 +1,106 @@
 # Performance Records
 
+## 0.16.39 Release Scope
+
+The user authorizes release closure for the browser target-release sequencing
+fix, the already-committed npm verifier correction, and R20 confirmation records.
+Core becomes 0.16.39; generator remains 0.1.157 with its original guidance.
+Compiler/runtime source is unchanged. Include the website page and current links,
+then require exact-commit CI, immutable tag, GitHub/npm publication, registry
+integrity/fresh installs, and public website checks. Release receipts belong to
+the GitHub release; this is not an AI-cost improvement or new model experiment.
+
+## Browser Target Release Before Navigation (2026-09-21, offline)
+
+R20 confirmation control ordinal 4 fails at its article-link click with
+`Runtime.releaseObject: Cannot find context with specified id`. The browser tool
+previously retained a remote DOM target through input dispatch, then attempted
+to release it after navigation could destroy the execution context.
+
+A real-Chrome regression holds the input command's reply until the destination
+DOMContentLoaded event, reproducing the same failure before the fix. The tool
+now releases the target after its last use: after focus for fill, and after the
+hit test for click, before native input events. Neither path needs the remote
+object afterward. Each action still releases exactly once; no cleanup error is
+suppressed, additional CDP command is added, or target validation is relaxed.
+Focus, visibility, disabled/read-only checks, hit testing and native events retain
+their behavior. This does not add general navigation-idle or focus-navigation
+handling guarantees.
+
+The browser suite passes 8/8, including click navigation, navigation from an input
+handler and existing invalid-action/cleanup coverage. The exact historical ten
+commands also pass offline on the unchanged retained artifacts; every artifact
+hash verifies before and after replay. Original R20 scores, failures and archives
+are untouched. No model calls or AI-cost saving are claimed. Evidence is under
+`test-results/ai-delivery-production/browser-target-release-20260921/`.
+Future experiments must freeze the updated utility and public documentation.
+Final `npm run check`, required-Chrome `npm test` (1/1 then 344/344, no skips),
+and `git diff --check` pass.
+
+## R20 Independent Confirmation (2026-09-21)
+
+The user authorizes one ten-attempt confirmation of the exact R20 protocol
+`4d99a918eb5c31a97c3199f37b9bb5bb7a48582953f18d6888613cc6c5e5c4f8`.
+Frozen input inventories, the original archive and OpenCode 1.18.27 binary hashes
+verify before execution. Fresh offline input and immutable-root fixture checks
+pass. Model, budgets, schedule, scorer, adapter, browser tools, and both starters
+remain byte-identical. There are no new probes, retries or substitutions.
+
+**The initial improvement does not replicate; reject the guidance candidate.**
+Both arms score 4/5, while candidate total and failure-inclusive success tokens
+increase 19.36%. All ten final outputs pass independent acceptance; that does not
+replace input-budget failures at control ordinal 3 (440,561 input tokens) and
+candidate ordinal 4 (593,393) against 400,000. All traces are complete.
+
+| Confirmation metric, five per arm | Existing guidance | Planning candidate |
+|---|---:|---:|
+| Scored successes | 4/5 | 4/5 |
+| Independent final acceptance | 5/5 | 5/5 |
+| Recorded total tokens | 1,626,837 | 1,941,769 |
+| Failure-inclusive tokens per success | 406,709.25 | 485,442.25 |
+| Median elapsed ms | 132,869 | 129,370 |
+| Median normalized tools | 29 | 29 |
+| Build/check calls and retained logs | 7 | 8 |
+| Browser invocations / failed commands | 11 / 3 | 9 / 3 |
+| Successful text assertions | 62 | 47 |
+| Before / first-build-message / after tokens | 628,113 / 110,102 / 888,622 | 723,170 / 124,738 / 1,093,861 |
+
+Fewer browser calls and 2.63% lower median elapsed time do not demonstrate lower
+cost. Both arms use the real AI check wrapper in every attempt; all fifteen check
+logs are 523 bytes, untruncated. Source review verifies only the article page and
+stylesheet change in every attempt. Audit reconciles ten traces, sixty command
+streams, two hundred artifacts and 180 context-integrity checks.
+
+Secondary pooled results across both R20 blocks are control 8/10 at 3,210,508
+tokens (401,313.5 per success), candidate 9/10 at 3,583,337 tokens
+(398,148.56 per success). Total candidate tokens increase 11.61%; the 0.79% lower
+pooled success cost is a denominator effect, not a reproduced improvement. Keep
+both blocks separate and do not pool with R19. Total R20 work is 6,793,845 tokens;
+this confirmation contributes 3,568,606 with no probe cost or unknown tail.
+
+Execution is 02:30:52.163Z–02:54:01.656Z (23m 9.493s). Evidence is under
+`test-results/ai-delivery-production/r20-confirmation-20260921/` with copied
+inputs, authorization, raw attempts, audits, source review and `comparison.json`.
+The local one-line candidate is removed after verifying it matches the version
+preserved in the first R20 archive. Released 1,828-byte guidance is restored;
+there is no generator/package release or third model block.
+
+The next concrete offline failure is control ordinal 4's browser command error
+`Runtime.releaseObject: Cannot find context with specified id`; its final task
+still passes. Reproduce the object-release/navigation boundary before changing
+the browser tool. Exact AX name mismatches also remain recorded; do not relax
+matching or remove acceptance checks to turn them into passes. The AI/1.0 gate
+remains blocked, and no reliable AI-cost saving is claimed.
+
+Final check, required-Chrome tests (1/1 then 343/343, no skips), and package smoke
+pass. Restored guidance is 1,828 bytes and paired generated apps retain four
+identical deploy files at 9,758 raw / 3,741 aggregate gzip bytes.
+
+Confirmation archive: `r20-confirmation-20260921-audited.tar.gz`, 61,786,923 bytes;
+SHA-256 `db4a56583bcd3fd043e4e7f67e912a4571952f4ec070c64ab3c91ed776afb96e`.
+Fresh extraction verifies 629 content files plus the manifest. This checksum
+closure is outside the archived snapshot; the first R20 archive remains unchanged.
+
 ## Publication Lookup Diagnostics (2026-09-21)
 
 The 0.16.38 publication workflow completed its publish steps but failed the
