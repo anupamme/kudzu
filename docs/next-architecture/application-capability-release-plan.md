@@ -10,6 +10,62 @@ one independently releasable evidence packet to each patch release. Planned
 versions are not completed releases. `package.json`, release notes, tags, and
 registry metadata change only after the matching packet passes every gate.
 
+The user authorizes 0.16.38 release closure for website note coverage, current
+links, regression checks and the retained R20 evidence. This is a documentation
+and release-process patch, not a new compiler capability. Generator 0.1.157
+remains unchanged and the local experimental guidance is excluded. Verify the
+exact release commit and publish normally; website rollout additionally requires
+Cloudflare authentication and public URL checks, independent of GitHub/npm.
+
+The subsequently authorized R20 block is complete (2026-09-16), with ten serial
+attempts and no retries or new probes. Existing guidance succeeds 4/5 versus
+candidate 5/5; all outputs pass independent acceptance. Control's failure is
+402,854 input tokens against 400,000. Failure-inclusive tokens per success fall
+17.08%, but total tokens rise 3.66% (1,583,671 versus 1,641,568), browser calls
+rise 9 to 15, and failed browser commands rise 2 to 4. All 3,225,239 recorded
+tokens are attributable. This is a mixed first observation, not evidence that
+verification loops or total costs decrease. Preserve the frozen run and keep
+the candidate experimental; no automatic confirmation, release, broader task
+batch or AI/1.0 claim follows. R19 remains a separate intervention.
+
+Historical preflight state, before the authorized execution above:
+R20 preparation is complete offline (2026-09-16): both arms have the same AI tools
+and representative Content starter, differing only in one 186-byte guidance
+bullet. The copied runner retains wrapper logs for both conditions; protocol,
+tamper guards, labeled log fixtures, exact-lock installs and twelve identical
+starter deploy hashes pass. Model, budgets and scorer stay pinned; both arms use
+the released browser fixes. Protocol hash is
+`4d99a918eb5c31a97c3199f37b9bb5bb7a48582953f18d6888613cc6c5e5c4f8`.
+The preregistered ten-attempt comparison has not run: no model calls or fresh
+loading probes occurred. This differs from R19's bundled intervention and cannot
+be pooled with it. The next step is separately authorized execution of these
+frozen inputs, retaining failures and verification coverage; preparation is not
+cost evidence or authorization for release/1.0.
+
+The next user-requested implementation (2026-09-16) prepares the verification-plan
+candidate as one generic bullet in generated opt-in `AGENTS.md`. It grounds text
+expectations and defines completion/recheck criteria while retaining required
+build, browser, accessibility and static-output checks. Existing 2 KiB guidance
+and generator parity gates apply. This source candidate is not a published
+generator or measured cost improvement; historical R19 inputs remain frozen and
+a new model comparison still requires separate authorization and input freezing.
+Check, required-Chrome tests (1/1 then 341/341, no skips), and package smoke pass.
+Generated guidance is 2,014 bytes (+186); four deploy files remain byte-identical
+between default and AI apps, at 9,758 raw / 3,741 aggregate gzip bytes.
+
+Core 0.16.37 release closure is complete, including exact-commit CI, protected npm
+publication, registry integrity and fresh default/AI installs; release receipts
+are attached to its GitHub release. The next offline R19 review (2026-09-16)
+reconciles all twenty traces: timeout ordinal 2 has no agent build/browser calls
+and only 962 ms of recorded tool intervals, leaving latency attribution unknown.
+Guided ordinal 4 crosses its input budget in post-check source reads after one
+incorrect text expectation has been corrected; message costs are not removable
+per-command costs. Zero exact read-repeat candidates support no read-cache work.
+The next candidate is a bounded verification-plan intervention with grounded
+assertions and unchanged acceptance coverage. It needs a separately authorized,
+freshly frozen comparison before any savings claim. No new model batch or
+compiler capability is authorized by this analysis; the AI/1.0 gate stays blocked.
+
 The user authorizes release closure as `0.16.37` for the repository browser
 observation fixes and R19 evidence records. This explicitly replans the next
 patch as tooling/evidence closure, not a new compiler capability or an accepted

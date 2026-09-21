@@ -1,5 +1,24 @@
 # Kudzu Releases
 
+## 0.16.38 - Release Website Coverage
+
+- Restores missing website notes for 0.16.32–0.16.37 and 0.8.60–0.8.62 using
+  ordinary static TSX pages and a shared presentation component. GitHub notes
+  already existed; the separately authored website routes had been omitted.
+- Updates current home, documentation and example release links and installation
+  copy, and adds this release's own website page.
+- Adds a regression check requiring a website page for every released entry in
+  `RELEASES.md`, excluding explicitly unreleased records, and current package
+  version links throughout the site's current-release navigation.
+- Verifies static release HTML, browser headings, canonical URLs and sitemap
+  entries. The release checklist now requires deployed-URL verification separately
+  from GitHub/npm publication.
+- Records the R20 mixed result: candidate success cost is lower with 5/5 versus
+  4/5 successes, but total tokens and browser calls increase. The experimental
+  guidance is not shipped by this release and no reliable AI saving is claimed.
+- No compiler/runtime change or new migration capability. Generator 0.1.157 and
+  its compatible `^0.16.36` dependency range remain unchanged.
+
 ## 0.16.37 - Browser Observation Consistency
 
 - Fixes the repository-only browser smoke tool so text assertions and their

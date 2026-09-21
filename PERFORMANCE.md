@@ -1,5 +1,242 @@
 # Performance Records
 
+## 0.16.38 Release Scope
+
+The user authorizes commit, push, tagging and release of the website coverage
+repair. The candidate includes the nine restored pages, its own 0.16.38 page,
+current-version links, coverage regression and the R20 result record. The local
+experimental generator instruction is excluded; create-kudzu 0.1.157 stays
+unchanged. Core/compiler behavior is unchanged. Exact-commit CI, immutable
+tagging, GitHub/npm publication and website deployment are separate gates.
+Cloudflare authentication was absent at preparation; public URL verification
+must follow an authenticated deployment rather than be inferred from npm.
+
+## Release Website Coverage Repair (2026-09-16, local validation)
+
+The website audit found nine missing published release pages: 0.16.32–0.16.37
+and 0.8.60–0.8.62. GitHub release bodies and `RELEASES.md` existed, but the site
+uses separately authored TSX routes. The live homepage still linked 0.16.30;
+sampled missing URLs returned 404. GitHub/npm publication had not established
+website coverage.
+
+Nine static pages now reuse one presentation component, with summaries grounded
+in the release records and links to their full GitHub evidence. Home, docs and
+example current-version links and installation copy point to 0.16.37. The new
+release-site test reproduces the exact nine omissions before the fix and checks
+all released Markdown entries plus current site links; explicitly unreleased
+records such as 0.16.31 are excluded. The release checklist now includes site
+coverage and separate deployed-URL verification.
+
+Check builds 239 pages (nine more, all static). Chrome confirms all nine headings;
+their HTML contains no script/modulepreload or Kudzu behavior markers, and their
+canonical URLs and sitemap entries are present. Required-Chrome tests pass 1/1
+then 342/342 with no skips. The first full run exposed a stale 0.16.30 assertion
+in the site integration test; current installation/link checks now use the
+package version while historical release checks remain intact. This validates
+local source/output, not a completed website deployment.
+
+## R20 Verification-Plan Comparison (2026-09-16)
+
+The subsequent user request authorizes exactly the prepared ten-attempt R20
+block. Execution uses protocol hash
+`4d99a918eb5c31a97c3199f37b9bb5bb7a48582953f18d6888613cc6c5e5c4f8`, the
+verified OpenCode 1.18.27 binary, and the frozen model, budgets, scorer, adapter,
+browser tools and serial schedule. Both arms have the AI bundle; only the new
+verification-planning bullet differs. There are no fresh loading probes,
+selective retries, model substitutions or additional batches. Historical R19
+loading evidence is not a new measurement of candidate instruction adoption.
+
+| Metric, five attempts per arm | Existing guidance | Planning candidate |
+|---|---:|---:|
+| Scored successes | 4/5 | 5/5 |
+| Independent final acceptance passes | 5/5 | 5/5 |
+| Recorded total tokens, including failed work and cache reads | 1,583,671 | 1,641,568 |
+| Failure-inclusive tokens per success | 395,917.75 | 328,313.6 |
+| Median successful-attempt tokens | 307,276 | 321,980 |
+| Median elapsed ms | 150,749 | 147,714 |
+| Median normalized tool calls | 29 | 31 |
+| Build/check calls and retained logs | 8 | 7 |
+| Browser invocations | 9 | 15 |
+| Failed browser commands | 2 | 4 |
+| Successful rendered-text assertions | 45 | 77 |
+| Before / first-build-message / after tokens | 592,521 / 103,642 / 887,508 | 559,275 / 96,671 / 985,622 |
+
+The preregistered failure-inclusive success cost is **17.08% lower**, with a
+5-versus-4 success denominator. However, **total tokens increase 3.66%**, three of
+five candidate pairs use more tokens, median tools increase, and browser calls
+and post-build usage also increase. Median elapsed time is 2.01% lower in this
+small block. This does not establish fewer verification loops, reliable total
+cost savings, or causal benefit from the instruction. Subscription-reported
+dollars remain zero, not a measured monetary saving.
+
+Control ordinal 3 records 402,854 input tokens against the unchanged 400,000
+budget, so it remains a scored failure despite passing final acceptance. All ten
+usage traces are complete; total recorded cost is 3,225,239 tokens with zero new
+probe tokens. No unknown tail or denominator adjustment is needed in this block.
+Do not pool these results with R19's different bundled intervention.
+
+Both groups use `ai check` in all five attempts and `ai docs Authoring` once.
+All fifteen check logs are 523 bytes and untruncated. Each arm has two exact AX
+name mismatches (`Search articles` versus computed `SEARCH ARTICLES`); candidate
+also has two failed expected-text assertions on unchanged routes. Required
+independent acceptance still passes for every final artifact. The observations
+do not establish complete keyboard/screen-reader certification, nor do additional
+browser calls automatically mean redundant checks.
+
+Audit verifies ten traces, sixty command streams, two hundred artifacts and 180
+context-integrity checks. Source review confirms only the article page and
+stylesheet change in every attempt; all other authored files, frozen tools,
+instructions and manifests remain intact. Wrapper logs are retained for both
+arms and checked against their reported lengths. Original scores and failures
+are preserved. The copied review helper's R19-specific scope label is corrected
+for this R20 block without altering computed values.
+
+Execution runs 01:49:40.028Z–02:15:38.341Z (25m 58.313s). Evidence, authorization,
+raw attempts, `audit.json`, `review.json`, and paired `outcome.json` remain under
+`test-results/ai-delivery-production/r20-verification-plan-20260916/`.
+Stop model calls after this block. Keep the guidance candidate experimental;
+neither a release, automatic confirmation, wider task expansion, nor an AI/1.0
+claim follows from this one mixed result.
+
+## R20 Verification-Plan Preflight (2026-09-16, not executed)
+
+The instruction-only comparison is prepared under
+`test-results/ai-delivery-production/r20-verification-plan-20260916/`. Unlike R19,
+both arms receive the same AI bundle. Control uses the published 0.1.157 guidance;
+candidate adds only the 186-byte verification-planning bullet. Full starter
+inventories prove `AGENTS.md` is the only differing file (1,828 versus 2,014 bytes).
+This is an unmeasured source candidate, not a new generator release.
+
+Both arms keep core 0.16.36 and TypeScript 5.9.3 locked from R19, the pinned
+OpenCode 1.18.27 binary and model, 300-second/400,000-input budgets, task prompt,
+acceptance contract/scorer, adapter and alternating serial schedule. Five attempts
+per arm are preregistered, with failures retained and unknown timeout usage never
+zeroed. Browser utilities use the same released 0.16.37 observation fixes in both
+arms. The isolated copied runner's sole change retains AI check logs for both
+arms, because control now also has the wrapper. Default repository runner and
+historical inputs are untouched. This different intervention cannot be pooled
+with R19 to claim a common treatment effect.
+
+Protocol SHA-256:
+`4d99a918eb5c31a97c3199f37b9bb5bb7a48582953f18d6888613cc6c5e5c4f8`.
+Frozen input inventory SHA-256:
+`6625940e67c6bcafc6948ebe178e4ece881292fc668cd555f455cbad35f381f5`.
+`freeze.json` also records the uncommitted generator source hash and preserved
+binary hash. `preregistration.json` defines the primary failure-inclusive success
+cost and nondecreasing success-rate requirement, secondary verification metrics,
+and prohibition on selective retries or automatic broader-task expansion.
+
+Offline validation passes protocol/hash checks before deliberately stopping at
+an existing output directory, positive/negative immutable-input fixture checks,
+and explicit baseline/tool-assisted log-retention fixtures. Fresh copies of both
+starters install their exact locks and pass the real AI typecheck/build wrapper;
+all twelve starter deploy files have matching hashes. Frozen inputs are checked
+again after validation. These are starting-app checks, not completion of the
+requested search feature or proof that a model follows the new instruction.
+Preflight sets `OPENCODE_BIN` to a nonexistent path so it cannot start the provider.
+No new loading canary or model attempt runs; prior loading evidence stays labeled
+historical and any new authorized probe must report its usage separately.
+
+`prepare.mjs`, `validate.mjs`, and `preflight-v2/validation.json` retain the
+preparation and executable checks. The first log-retention fixture check assumed
+condition labels in a generic fixture that had none; the corrected fixture sets
+both labels explicitly. The initial outputs are preserved, and no frozen
+experimental input changes. Actual model execution requires separate approval;
+the AI/1.0 gate remains blocked and no savings are claimed.
+Repository `npm run check`, required-Chrome default-schedule `npm test` (1/1
+then 341/341, zero skips), and `git diff --check` also pass after preparation.
+
+## Verification Planning Guidance Candidate (2026-09-16, unmeasured)
+
+The next user-requested implementation adds one bullet to the generator's opt-in
+`AGENTS.md`: plan required checks, ground expected text in requirements and source
+or rendered content, finish once required checks pass, and rerun affected checks
+after edits or new failure evidence. Existing typecheck/build, browser behavior,
+accessibility, static-output and unavailable-check reporting instructions remain.
+This is generic application guidance, with no R19-specific text or acceptance
+answers, new tool, check cache, automatic stop rule, or prompt-budget exemption.
+
+The existing generator tests verify the 2 KiB guidance limit, source parity,
+opt-in-only generation, and protection of user-owned instructions. The instruction
+adds input context; any reduction in retries, tokens, or elapsed time remains
+unmeasured. Historical R19 guidance and scores stay frozen. A future comparison
+must freeze this candidate separately and keep equivalent required coverage;
+neither a new model batch nor a release is part of this implementation.
+
+Validation passes: generator tests 2/2, `npm run check`, required-Chrome
+default-schedule `npm test` (1/1 then 341/341, zero skips), and `npm run test:package`.
+Guidance grows from 1,828 to 2,014 bytes (+186), below the existing 2,048-byte cap.
+Packed default/AI apps retain four byte-identical deploy files at 9,758 raw /
+3,741 aggregate gzip bytes. Logs are retained under
+`test-results/ai-delivery-production/verification-guidance-20260916/`.
+
+## R19 Failure Timing and Verification Review (2026-09-16, offline)
+
+After 0.16.37 publication, the next evidence packet reviews all twenty original
+R19 attempts, not only the two confirmation failures. It reuses `auditTrace()`
+and the frozen experiment's build pattern, reconciles every recorded usage total
+with the original result, and checks stdout/trace/result plus protocol/run/freeze
+hashes against the retained archive manifests. No original file or score changes.
+Reproduce with:
+
+```sh
+node test-results/ai-delivery-production/r19-failure-review-20260916/analyze.mjs
+```
+
+The resulting `report.json` retains per-message usage and tool timelines for all
+twenty attempts. The generic auditor's build heuristic does not recognize
+`ai check`; the frozen experiment's existing pattern supplies that boundary.
+Overlapping tool intervals are unioned, not added. These timestamps measure
+recorded intervals, not provider request latency or billable time.
+
+| Confirmation failure | Timeout: guided ordinal 2 | Input budget: guided ordinal 4 |
+|---|---:|---:|
+| Runner elapsed ms | 300,005 | 157,352 |
+| First-to-last recorded event window ms | 228,381 | 147,650 |
+| Union of recorded tool execution intervals ms | 962 | 13,048 |
+| Recorded input, including cache reads | 127,579 | 553,031 |
+| Recorded total tokens | 129,721 (lower bound) | 557,724 |
+| Terminal stop observed | No | Yes |
+
+**Timeout:** all eight observed model messages finish, but the final reason is
+`tool-calls`, not terminal `stop`. An empty unfinished-message list therefore does
+not establish completion. The latest adapter checkpoint says 270,993 ms and
+`complete: false`; its `timedOut: false` is stale state, while the outer runner
+records a 300,005 ms SIGKILL timeout. There are no agent build or browser calls.
+The 227,419 ms outside recorded tool intervals cannot be assigned to provider,
+queue, harness, or generation from this trace. The event window also excludes
+startup and the unobserved tail. Browser/CDP and build speedups cannot be credited
+with rescuing this attempt, and missing tail usage remains unknown.
+
+**Input-budget failure:** normalized tokens partition into 175,835 before the
+first build, 32,156 in its message, and 349,733 after it. There are no subsequent
+source write tool events. Cumulative input reaches 276,362 after successful
+interactive search checks; an unchanged-route check then expects nonexistent
+`3 performance articles` text and fails. The corrected check passes at 362,533.
+Post-check source reads cross the 400,000 budget at 408,406; an extra title-search
+check, TODO update, and final response bring it to 553,031. Those steps contain
+real verification work; their message usage is not per-command cost, proof of
+redundancy, or recoverable token savings. The unchanged topic source confirms
+the incorrect expectation, not a compiler rendering defect.
+
+Across all twenty traces the existing auditor finds zero exact non-truncated
+read/glob/grep request-output repeats. Normalized tool counts exceed raw tool
+events by one because the two-file patch expands to two writes, not because a
+tool event is missing. No read cache or faster check runtime is justified by
+these failures. The next bounded intervention candidate is verification planning:
+ground text expectations in authored/rendered content, cover required cases in
+one planned sequence, and avoid reopening completed checks without new evidence.
+Keep all behavior/accessibility/static-output requirements. Its benefit requires
+a separately authorized, freshly frozen comparison; no new provider calls,
+instruction change, larger task batch, or cost-saving claim follows from this
+read-only analysis. The AI/1.0 gate remains blocked.
+
+Analysis assertions, `npm run check`, and required-Chrome default-schedule
+`npm test` pass (1/1 then 341/341, zero skips); logs and the report remain in the
+review directory. An initial audit guard incorrectly assumed one patch call per
+attempt; it now reconciles the actual per-patch file counts with normalized tool
+counts. That local failed guard log is retained; no historical usage is changed.
+
 ## 0.16.37 Release Scope
 
 The subsequent user request authorizes commit, push, immutable tagging and
@@ -10,8 +247,10 @@ Comparing every packed file with the verified 0.16.36 release finds the same 60
 core paths and identical contents except the core manifest version; all five
 generator files remain identical. There is no compiler/runtime or deploy-byte
 delta. Local receipts are under `/tmp/opencode/kudzu-0.16.37-release/`.
-Exact-commit CI, GitHub release and protected registry publication are separate
-remaining gates; publication receipts belong to the GitHub release.
+Release closure is complete: exact-commit CI and protected npm publication pass,
+registry tarballs match local pack integrity, and fresh default/AI apps install
+0.16.37, pass checks, and produce four byte-identical deploy files. Receipts are
+attached to [v0.16.37](https://github.com/kudzujs/kudzu/releases/tag/v0.16.37).
 
 ## Browser Open Parsing Readiness (2026-09-15, offline)
 

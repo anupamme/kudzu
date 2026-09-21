@@ -71,6 +71,14 @@ Keep each patch behavior-preserving and independently reviewable. If a boundary 
 
 ## Release Boundary
 
+The active user-authorized transaction is core `0.16.38`, website release-note
+coverage and release-process checks. Restore missing pages, include the new page,
+and update current links before CI and immutable tagging. Generator `0.1.157`
+remains unchanged; the local experimental guidance is excluded from this release.
+GitHub/npm publication does not complete website deployment: verify Cloudflare
+authentication and public release URLs separately. Earlier active statements are
+historical; 0.16.37 publication is complete.
+
 The active user-authorized transaction is core `0.16.37`, repository browser
 observation consistency and the R19 confirmation record. The browser utility is
 not in either npm tarball; compiler/runtime source remains unchanged. Retain
@@ -137,3 +145,4 @@ because the session ended.
 - [ ] Apply [`performance-gates.md`](./performance-gates.md).
 - [ ] Update current architecture mapping when responsibility actually moves.
 - [ ] Update `RELEASES.md` only as part of a real release, never from this plan alone.
+- [ ] Add the matching `src/pages/releases/<version>.tsx` page, update current home/docs/example release links, and pass `test/release-site.test.mjs`. Verify deployed release URLs separately from GitHub/npm publication.
